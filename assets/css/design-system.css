@@ -1,0 +1,32 @@
+/* ============================================
+   IMS DESIGN SYSTEM — CSS VARIABLES & RESET
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg-base:        #EEF0F5;
+    --bg-card:        #EEF0F5;
+    --bg-dark:        #1C1E26;
+    --shadow-light:   #FFFFFF;
+    --shadow-dark:    #C8CAD4;
+    --neu-raised:     8px 8px 16px #C8CAD4, -8px -8px 16px #FFFFFF;
+    --neu-inset:      inset 6px 6px 12px #C8CAD4, inset -6px -6px 12px #FFFFFF;
+    --neu-pressed:    inset 4px 4px 8px #C8CAD4, inset -4px -4px 8px #FFFFFF;
+    --accent-primary: #3D5AFE;
+    --accent-success: #00C896;
+    --accent-warning: #FFB547;
+    --accent-danger:  #FF5370;
+    --accent-neutral: #7E8299;
+    --text-primary:   #1C1E26;
+    --text-secondary: #5A5F7D;
+    --text-muted:     #9699AD;
+    --text-inverse:   #F4F5F9;
+    --s1: 4px; --s2: 8px; --s3: 16px;
+    --s4: 24px; --s5: 32px; --s6: 48px;
+    --radius-sm: 12px; --radius-md: 16px; --radius-lg: 20px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg-base); color: var(--text-primary); min-height: 100vh; }
+a { text-decoration: none; color: inherit; }
