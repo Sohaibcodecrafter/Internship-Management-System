@@ -1,5 +1,8 @@
 <?php
-session_start();
+ob_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 function requireLogin(): void {
     if (!isset($_SESSION['user_id'])) {

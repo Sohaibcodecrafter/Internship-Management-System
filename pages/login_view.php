@@ -19,6 +19,12 @@
     <h1 class="login-title">Welcome Back</h1>
     <p class="login-sub">Internship Management System · Sign in to continue</p>
 
+    <?php if (isset($_SESSION['flash'])): ?>
+        <div class="alert alert-<?= $_SESSION['flash']['type'] === 'success' ? 'success' : 'error' ?>">
+            <?= htmlspecialchars($_SESSION['flash']['msg']) ?>
+        </div>
+        <?php unset($_SESSION['flash']); ?>
+    <?php endif; ?>
     <?php if ($error): ?>
         <div class="alert alert-error"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
@@ -38,6 +44,9 @@
             Sign In →
         </button>
     </form>
+    <p style="text-align:center;margin-top:var(--s3);font-size:0.85rem;color:var(--text-muted)">
+        Don't have an account? <a href="/ims/auth/register.php" style="color:var(--accent-primary);font-weight:600">Register</a>
+    </p>
 </div>
 <script src="/ims/assets/js/main.js"></script>
 </body>

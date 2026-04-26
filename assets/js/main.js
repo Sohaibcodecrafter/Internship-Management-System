@@ -89,3 +89,85 @@ function clearErrors() {
 function confirmDelete(msg) {
     return confirm(msg || 'Are you sure you want to delete this record? This cannot be undone.');
 }
+
+// ═══════════════════════════════════════════════════
+// IMS SIDEBAR + THEME UPGRADE — appended, do not edit above
+// ═══════════════════════════════════════════════════
+
+const IMSSidebar = (() => {
+    const STORAGE_KEY = 'ims_sidebar_collapsed';
+    const sidebar     = document.getElementById('ims-sidebar');
+    const layout      = document.getElementById('ims-layout');
+
+    function apply(collapsed) {
+        if (!sidebar) return;
+        sidebar.classList.toggle('ims-sidebar--collapsed', collapsed);
+        layout && layout.classList.toggle('ims-layout--collapsed', collapsed);
+        localStorage.setItem(STORAGE_KEY, collapsed ? '1' : '0');
+    }
+
+    function toggle() {
+        const isCollapsed = sidebar.classList.contains('ims-sidebar--collapsed');
+        apply(!isCollapsed);
+    }
+
+    function mobileToggle() {
+        if (!sidebar) return;
+        sidebar.classList.toggle('ims-sidebar--mobile-open');
+        const overlay = document.getElementById('ims-overlay');
+        if (overlay) overlay.classList.toggle('ims-overlay--active');
+    }
+
+    function init() {
+        const saved = localStorage.getItem(STORAGE_KEY) === '1';
+        apply(saved);
+
+        // Close mobile sidebar on outside click
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 &&
+                sidebar &&
+                !sidebar.contains(e.target) &&
+                !document.getElementById('ims-hamburger')?.contains(e.target) &&
+                !document.getElementById('ims-mobile-toggle')?.contains(e.target)) {
+                sidebar.classList.remove('ims-sidebar--mobile-open');
+                const overlay = document.getElementById('ims-overlay');
+                if (overlay) overlay.classList.remove('ims-overlay--active');
+            }
+        });
+    }
+
+    return { toggle, mobileToggle, init };
+})();
+
+const IMSTheme = (() => {
+    const STORAGE_KEY = 'ims_theme';
+    const btn         = document.getElementById('ims-theme-toggle');
+
+    function apply(dark) {
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+        const moon = document.getElementById('ims-icon-moon');
+        const sun  = document.getElementById('ims-icon-sun');
+        if (moon) moon.style.display = dark ? 'none'  : 'block';
+        if (sun)  sun.style.display  = dark ? 'block' : 'none';
+        localStorage.setItem(STORAGE_KEY, dark ? 'dark' : 'light');
+    }
+
+    function toggle() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        apply(!isDark);
+    }
+
+    function init() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        apply(saved ? saved === 'dark' : prefersDark);
+    }
+
+    return { toggle, init };
+})();
+
+// Auto-init when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    IMSSidebar.init();
+    IMSTheme.init();
+});

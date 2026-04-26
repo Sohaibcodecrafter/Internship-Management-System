@@ -1,3 +1,6 @@
+<?php if (isset($_SESSION['flash'])): ?>
+    <div class="alert alert-<?= $_SESSION['flash']['type'] ?>"><?= htmlspecialchars($_SESSION['flash']['msg']) ?></div>
+    <?php unset($_SESSION['flash']); endif; ?>
 <div class="page-header">
     <div>
         <h1 class="page-title">Students</h1>
@@ -57,6 +60,8 @@
                     <th>GPA</th>
                     <th>Year</th>
                     <th>Status</th>
+                    <th>Account</th>
+                    <?php if (isAdmin()): ?><th>Actions</th><?php endif; ?>
                 </tr>
             </thead>
             <tbody>
@@ -74,6 +79,22 @@
                         }; ?>
                         <span class="badge badge-<?= $cls ?>"><?= ucfirst($s['status']) ?></span>
                     </td>
+                    <td>
+                        <?php if (isset($s['is_active'])): ?>
+                            <span class="badge badge-<?= $s['is_active'] ? 'success' : 'danger' ?>"><?= $s['is_active'] ? 'Active' : 'Inactive' ?></span>
+                        <?php endif; ?>
+                    </td>
+                    <?php if (isAdmin()): ?>
+                    <td>
+                        <form method="POST" style="display:inline">
+                            <input type="hidden" name="user_id" value="<?= $s['user_id'] ?>">
+                            <input type="hidden" name="new_active" value="<?= $s['is_active'] ? 0 : 1 ?>">
+                            <button type="submit" name="toggle_active" class="btn btn-ghost btn-sm" style="color:var(--accent-<?= $s['is_active'] ? 'danger' : 'success' ?>)">
+                                <?= $s['is_active'] ? 'Deactivate' : 'Activate' ?>
+                            </button>
+                        </form>
+                    </td>
+                    <?php endif; ?>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

@@ -1,3 +1,6 @@
+<?php if (isset($_SESSION['flash'])): ?>
+    <div class="alert alert-<?= $_SESSION['flash']['type'] ?>"><?= htmlspecialchars($_SESSION['flash']['msg']) ?></div>
+    <?php unset($_SESSION['flash']); endif; ?>
 <div class="page-header">
     <div>
         <h1 class="page-title">Internships</h1>
@@ -38,7 +41,7 @@
     <?php else: ?>
     <div class="table-wrapper">
         <table class="data-table">
-            <thead><tr><th>Title</th><th>Company</th><th>Domain</th><th>Supervisor</th><th>Stipend</th><th>Duration</th><th>Slots</th><th>Status</th></tr></thead>
+            <thead><tr><th>Title</th><th>Company</th><th>Domain</th><th>Supervisor</th><th>Stipend</th><th>Duration</th><th>Slots</th><th>Status</th><?php if (isAdmin()): ?><th>Action</th><?php endif; ?></tr></thead>
             <tbody>
                 <?php foreach ($internships as $i): ?>
                 <tr>
@@ -50,6 +53,16 @@
                     <td style="color:var(--text-muted)"><?= $i['duration_months'] ?> mo</td>
                     <td><?= $i['slots'] ?></td>
                     <td><?php $cls = match($i['status']){'open'=>'success','closed'=>'danger','completed'=>'primary',default=>'neutral'}; ?><span class="badge badge-<?= $cls ?>"><?= ucfirst($i['status']) ?></span></td>
+                    <?php if (isAdmin()): ?>
+                    <td>
+                        <?php if ($i['status'] === 'open'): ?>
+                        <form method="POST" style="display:inline">
+                            <input type="hidden" name="internship_id" value="<?= $i['internship_id'] ?>">
+                            <button type="submit" name="close_internship" class="btn btn-ghost btn-sm" style="color:var(--accent-danger)">Close</button>
+                        </form>
+                        <?php else: ?>—<?php endif; ?>
+                    </td>
+                    <?php endif; ?>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

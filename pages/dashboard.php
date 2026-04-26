@@ -33,6 +33,26 @@ $topCompanies = $pdo->query("
     GROUP BY c.company_id, c.company_name
     ORDER BY app_count DESC LIMIT 5
 ")->fetchAll();
+
+// Computed percentages for progress bars
+$totalApps        = max((int)$pdo->query('SELECT COUNT(*) FROM applications')->fetchColumn(), 1);
+$totalInternships = max((int)$pdo->query('SELECT COUNT(*) FROM internships')->fetchColumn(), 1);
+$totalCompaniesAll= max((int)$pdo->query('SELECT COUNT(*) FROM companies')->fetchColumn(), 1);
+
+$stats['total_applications'] = $totalApps;
+$stats['placement_rate']     = round(($stats['total_placements'] / $totalApps) * 100);
+$stats['verified_pct']       = round(($stats['total_companies'] / $totalCompaniesAll) * 100);
+$stats['open_pct']           = round(($stats['open_internships'] / $totalInternships) * 100);
+
+// Recent activity from applications
+$recentActivity = $pdo->query("
+    SELECT s.full_name AS student, i.title AS internship,
+           a.status, a.applied_at
+    FROM applications a
+    INNER JOIN students    s ON a.student_id    = s.student_id
+    INNER JOIN internships i ON a.internship_id = i.internship_id
+    ORDER BY a.applied_at DESC LIMIT 5
+")->fetchAll();
 ?>
 
 <!-- Dashboard view rendered here -->

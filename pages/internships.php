@@ -3,6 +3,14 @@ $pageTitle = 'Internships';
 require_once __DIR__ . '/../includes/header.php';
 $pdo = getDB();
 
+// Admin: close internship
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['close_internship']) && isAdmin()) {
+    $iid = (int)$_POST['internship_id'];
+    $pdo->prepare("UPDATE internships SET status = 'closed' WHERE internship_id = ?")->execute([$iid]);
+    $_SESSION['flash'] = ['type'=>'success','msg'=>'Internship closed.'];
+    header('Location: internships.php'); exit;
+}
+
 // Search & Filter
 $search            = trim($_GET['search'] ?? '');
 $domain            = trim($_GET['domain'] ?? '');
