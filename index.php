@@ -318,113 +318,66 @@ document.addEventListener('DOMContentLoaded', function() {
         var canvas = document.getElementById('ib-shader-canvas');
         if (!canvas || typeof THREE === 'undefined') return;
 
-        var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+        var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
 
         var camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
         var scene = new THREE.Scene();
         var clock = new THREE.Clock();
 
         var uniforms = {
-            iTime:        { value: 0.0 },
-            iResolution:  { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-            iMouse:       { value: new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2) },
-            iMouseActive: { value: 0.0 }
+            iTime: { value: 0.0 },
+            iResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+            iMouse: { value: new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2) }
         };
 
-        /* --- Color extraction from CSS vars --- */
-        function cssColorToGLSL(varName) {
-            var raw = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-            if (raw.startsWith('#')) {
-                var hex = raw.replace('#','');
-                var full = hex.length === 3 ? hex.split('').map(function(c){return c+c}).join('') : hex;
-                return [parseInt(full.slice(0,2),16)/255, parseInt(full.slice(2,4),16)/255, parseInt(full.slice(4,6),16)/255];
-            }
-            var m = raw.match(/[\d.]+/g);
-            if (m && m.length >= 3) return [parseFloat(m[0])/255, parseFloat(m[1])/255, parseFloat(m[2])/255];
-            return varName.includes('success') ? [0.0, 0.784, 0.588] : [0.239, 0.353, 0.996];
-        }
-        var primary = cssColorToGLSL('--accent-primary');
-        var accent  = cssColorToGLSL('--accent-success');
-        var pR = primary[0].toFixed(4), pG = primary[1].toFixed(4), pB = primary[2].toFixed(4);
-        var aR = accent[0].toFixed(4),  aG = accent[1].toFixed(4),  aB = accent[2].toFixed(4);
-
-        var vertexShader = 'void main(){gl_Position=vec4(position,1.0);}';
+        var vertexShader = [
+            'void main() {',
+            '  gl_Position = vec4(position, 1.0);',
+            '}'
+        ].join('\n');
 
         var fragmentShader = [
-            'precision highp float;',
-            'uniform vec2 iResolution;',
             'uniform float iTime;',
+            'uniform vec2 iResolution;',
             'uniform vec2 iMouse;',
-            'uniform float iMouseActive;',
             '',
-            'float random(vec2 st){return fract(sin(dot(st,vec2(12.9898,78.233)))*43758.5453123);}',
-            'float noise(vec2 st){',
-            '  vec2 i=floor(st);vec2 f=fract(st);vec2 u=f*f*(3.0-2.0*f);',
-            '  return mix(mix(random(i),random(i+vec2(1.0,0.0)),u.x),mix(random(i+vec2(0.0,1.0)),random(i+vec2(1.0,1.0)),u.x),u.y);',
+            'float hash(vec2 p) {',
+            '    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);',
             '}',
-            'float gridLines(vec2 uv,float cellSize,float lineWidth){',
-            '  vec2 g=fract(uv*cellSize);vec2 dg=min(g,1.0-g);',
-            '  return 1.0-smoothstep(0.0,lineWidth,min(dg.x,dg.y));',
+            'float noise(vec2 p) {',
+            '    vec2 i = floor(p);',
+            '    vec2 f = fract(p);',
+            '    f = f * f * (3.0 - 2.0 * f);',
+            '    return mix(mix(hash(i), hash(i+vec2(1,0)), f.x),',
+            '               mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y);',
             '}',
-            '',
-            'void main(){',
-            '  vec2 uv=(gl_FragCoord.xy-0.5*iResolution.xy)/iResolution.y;',
-            '  vec2 mouse=(iMouse-0.5*iResolution.xy)/iResolution.y;',
-            '  float t=iTime*0.25;',
-            '  float mouseDist=length(uv-mouse);',
-            '',
-            '  // Ripple warp from cursor',
-            '  float ripplePhase=mouseDist*28.0-iTime*5.0;',
-            '  float ripple=sin(ripplePhase)*0.055;',
-            '  ripple*=smoothstep(0.55,0.0,mouseDist)*iMouseActive;',
-            '  uv+=normalize(uv-mouse+0.0001)*ripple;',
-            '',
-            '  // Breathing distortion',
-            '  uv+=sin(uv.x*3.0+t)*cos(uv.y*3.0+t*0.7)*0.012;',
-            '',
-            '  // Dual-layer grid',
-            '  float mainGrid=gridLines(uv,10.0,0.035);',
-            '  float fineGrid=gridLines(uv,40.0,0.018)*0.3;',
-            '  float grid=max(mainGrid,fineGrid);',
-            '',
-            '  // Energy pulses along grid',
-            '  float energy=sin(uv.x*20.0+iTime*4.0)*sin(uv.y*20.0+iTime*2.8);',
-            '  energy=smoothstep(0.72,1.0,energy)*grid;',
-            '',
-            '  // Mouse proximity glow',
-            '  float proximity=1.0-smoothstep(0.0,0.22,mouseDist);',
-            '  float proximityGlow=proximity*grid*iMouseActive;',
-            '  float cursorCore=smoothstep(0.04,0.0,mouseDist)*iMouseActive;',
-            '',
-            '  // Scan-line shimmer',
-            '  float scan=sin(uv.y*iResolution.y*0.5-iTime*60.0)*0.5+0.5;',
-            '  scan=pow(scan,80.0)*0.18*grid;',
-            '',
-            '  // Noise grain',
-            '  float grain=noise((uv+t*0.08)*60.0)*0.06*grid;',
-            '',
-            '  // Color assembly',
-            '  vec3 primaryColor=vec3('+pR+','+pG+','+pB+');',
-            '  vec3 accentColor=vec3('+aR+','+aG+','+aB+');',
-            '  vec3 white=vec3(1.0);',
-            '',
-            '  float gridBrightness=0.4+sin(t*1.8)*0.18;',
-            '  vec3 color=primaryColor*grid*gridBrightness;',
-            '  color+=accentColor*energy*1.4;',
-            '  color+=mix(primaryColor,white,proximity*0.6)*proximityGlow*1.8;',
-            '  color+=white*cursorCore*0.9;',
-            '  color+=primaryColor*scan;',
-            '  color+=grain;',
-            '',
-            '  // Vignette',
-            '  float vignette=1.0-smoothstep(0.5,1.4,length(',
-            '    (gl_FragCoord.xy/iResolution.xy-0.5)*vec2(iResolution.x/iResolution.y,1.0)',
-            '  ));',
-            '  color*=0.6+vignette*0.4;',
-            '  color=clamp(color,0.0,0.92);',
-            '',
-            '  gl_FragColor=vec4(color,1.0);',
+            'void main() {',
+            '    vec2 uv = gl_FragCoord.xy / iResolution.xy;',
+            '    vec2 mouse = iMouse / iResolution;',
+            '    vec2 gp = fract(uv * 25.0);',
+            '    float gx = smoothstep(0.0, 0.03, gp.x) * smoothstep(0.0, 0.03, 1.0-gp.x);',
+            '    float gy = smoothstep(0.0, 0.03, gp.y) * smoothstep(0.0, 0.03, 1.0-gp.y);',
+            '    float grid = 1.0 - gx * gy;',
+            '    float pulse = sin(uv.x * 50.0 - iTime * 3.0) * 0.5 + 0.5;',
+            '    pulse *= sin(uv.y * 50.0 + iTime * 2.0) * 0.5 + 0.5;',
+            '    float dist = distance(uv, mouse);',
+            '    float glow = exp(-dist * 4.5) * 0.7;',
+            '    float n = noise(uv * 8.0 + iTime * 0.2) * 0.12;',
+            '    vec2 fc = fract(uv * 25.0) - 0.5;',
+            '    float dot2 = smoothstep(0.12, 0.08, length(fc));',
+            '    float crossPulse = sin(uv.x * 25.0 * 3.14159 + iTime) * sin(uv.y * 25.0 * 3.14159 - iTime * 0.7);',
+            '    vec3 bg = vec3(0.015, 0.015, 0.045);',
+            '    vec3 gc = vec3(0.24, 0.35, 0.996);',
+            '    vec3 glowC = vec3(0.3, 0.5, 1.0);',
+            '    vec3 col = bg;',
+            '    col += gc * grid * (0.08 + pulse * 0.06);',
+            '    col += gc * dot2 * (0.15 + crossPulse * 0.08);',
+            '    col += glowC * glow;',
+            '    col += n * vec3(0.04, 0.06, 0.12);',
+            '    col *= 1.0 + glow * 0.5;',
+            '    gl_FragColor = vec4(col, 1.0);',
             '}'
         ].join('\n');
 
@@ -436,54 +389,19 @@ document.addEventListener('DOMContentLoaded', function() {
         var mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
         scene.add(mesh);
 
-        /* --- Event handlers --- */
-        function onResize() {
-            var W = window.innerWidth, H = window.innerHeight;
-            renderer.setSize(W, H);
-            uniforms.iResolution.value.set(W, H);
-        }
-        window.addEventListener('resize', onResize);
-        onResize();
-
-        var mouseActivated = false;
+        window.addEventListener('resize', function() {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            uniforms.iResolution.value.set(window.innerWidth, window.innerHeight);
+        });
         window.addEventListener('mousemove', function(e) {
-            uniforms.iMouse.value.set(e.clientX, window.innerHeight - e.clientY);
-            if (!mouseActivated) {
-                mouseActivated = true;
-                var start = null;
-                function fadeIn(ts) {
-                    if (!start) start = ts;
-                    uniforms.iMouseActive.value = Math.min((ts - start) / 800, 1.0);
-                    if (uniforms.iMouseActive.value < 1.0) requestAnimationFrame(fadeIn);
-                }
-                requestAnimationFrame(fadeIn);
-            }
+            uniforms.iMouse.value.set(e.clientX, canvas.height - e.clientY);
         });
 
-        window.addEventListener('touchmove', function(e) {
-            var touch = e.touches[0];
-            uniforms.iMouse.value.set(touch.clientX, window.innerHeight - touch.clientY);
-            if (!mouseActivated) {
-                mouseActivated = true;
-                uniforms.iMouseActive.value = 1.0;
-            }
-        }, { passive: true });
-
-        /* --- Animation loop with visibility pause --- */
-        function renderLoop() {
+        (function animate() {
+            requestAnimationFrame(animate);
             uniforms.iTime.value = clock.getElapsedTime();
             renderer.render(scene, camera);
-        }
-        renderer.setAnimationLoop(renderLoop);
-
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                renderer.setAnimationLoop(null);
-            } else {
-                clock.start();
-                renderer.setAnimationLoop(renderLoop);
-            }
-        });
+        })();
     })();
 
     /* ─── 2. NAVBAR PILL + SCROLL ─── */
