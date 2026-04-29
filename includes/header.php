@@ -49,7 +49,7 @@ function icon(string $name, int $size = 16, string $class = ''): string {
             </button>
             <div class="ims-topbar__left">
                 <div class="ims-portal-label">IMS Portal</div>
-                <div class="ims-portal-username">👋 <?= htmlspecialchars($_SESSION['username'] ?? 'User') ?></div>
+                <div class="ims-portal-username">  <?= htmlspecialchars($_SESSION['username'] ?? 'User') ?></div>
             </div>
         </div>
         <div class="ims-topbar__actions">

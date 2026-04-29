@@ -141,8 +141,10 @@ input[type="checkbox"], input[type="radio"] { width: auto; accent-color: var(--a
     background: var(--bg-base); border-radius: var(--radius-sm);
     box-shadow: var(--neu-inset); padding: 10px 16px;
 }
-.search-bar input { border: none; background: transparent; outline: none; flex: 1; font-family: 'Outfit',sans-serif; font-size: 0.9rem; color: var(--text-primary); }
-.search-icon { color: var(--text-muted); font-size: 1rem; }
+.search-bar input { border: none; background: transparent; outline: none; flex: 1; font-family: 'Outfit',sans-serif; font-size: 0.9rem; color: var(--text-primary); box-shadow: none !important; }
+.search-bar input::placeholder { color: var(--text-muted); opacity: 0.7; }
+.search-icon { color: var(--text-muted); font-size: 1rem; display: flex; align-items: center; }
+.search-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* === ALERTS === */
 .alert { padding: 14px 18px; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; margin-bottom: var(--s3); }
@@ -176,7 +178,7 @@ input[type="checkbox"], input[type="radio"] { width: auto; accent-color: var(--a
 .card:nth-child(5) { animation-delay: 0.20s; }
 
 /* ── Auth Split Layout ── */
-.auth-split { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; width: 100%; }
+.auth-split { display: grid; grid-template-columns: 65fr 35fr; min-height: 100vh; width: 100%; }
 .auth-split__image { position: relative; overflow: hidden; }
 .auth-split__img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
 .auth-split__overlay {
@@ -207,27 +209,72 @@ input[type="checkbox"], input[type="radio"] { width: auto; accent-color: var(--a
     .auth-split__form { padding: 1.5rem 1rem; }
 }
 
-/* ── Dark mode glow fix (Step 8) ── */
-[data-theme="dark"] input, [data-theme="dark"] select, [data-theme="dark"] textarea,
-[data-theme="dark"] button, [data-theme="dark"] .btn, [data-theme="dark"] .btn-primary,
-[data-theme="dark"] .btn-outline, [data-theme="dark"] .btn-ghost,
-[data-theme="dark"] .ims-topbar__btn, [data-theme="dark"] .ims-toggle__btn,
-[data-theme="dark"] [class*="btn"] { box-shadow: none !important; -webkit-appearance: none; }
-[data-theme="dark"] input:focus, [data-theme="dark"] select:focus,
+/* ══ DARK MODE — NUKE ALL WHITE GLOW ══ */
+[data-theme="dark"] .card,
+[data-theme="dark"] .search-bar,
+[data-theme="dark"] .filter-bar .search-bar {
+    box-shadow: none !important;
+    border: 1px solid #1f2937;
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea,
+[data-theme="dark"] button,
+[data-theme="dark"] .btn,
+[data-theme="dark"] .btn-primary,
+[data-theme="dark"] .btn-outline,
+[data-theme="dark"] .btn-ghost,
+[data-theme="dark"] .btn-sm,
+[data-theme="dark"] .btn-danger,
+[data-theme="dark"] .ims-topbar__btn,
+[data-theme="dark"] .ims-toggle__btn,
+[data-theme="dark"] [class*="btn"] {
+    box-shadow: none !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* Dark mode focus — subtle border, no glow */
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
 [data-theme="dark"] textarea:focus {
     box-shadow: none !important;
     border-color: var(--accent-primary) !important;
-    outline: 2px solid var(--accent-primary) !important; outline-offset: -2px;
+    outline: none !important;
 }
-[data-theme="dark"] button:focus, [data-theme="dark"] .btn:focus {
+[data-theme="dark"] button:focus,
+[data-theme="dark"] .btn:focus,
+[data-theme="dark"] [class*="btn"]:focus {
     box-shadow: none !important;
-    outline: 2px solid var(--accent-primary) !important; outline-offset: 2px;
-}
-[data-theme="dark"] form[method="GET"] input, [data-theme="dark"] form[method="GET"] select,
-[data-theme="dark"] form[method="GET"] button {
-    box-shadow: none !important; border: 1px solid var(--ims-border, #1f2937) !important;
+    outline: none !important;
 }
 
-/* ── Select/dropdown fix (Step 9) ── */
-[data-theme="dark"] select option { background-color: #1f2937; color: #f9fafb; }
+/* Dark mode search bar input — no inner shadow */
+[data-theme="dark"] .search-bar input {
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* ── Select/dropdown: proper arrow + dark options ── */
+[data-theme="dark"] select,
+[data-theme="dark"] .select-field {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0.75rem center !important;
+    background-size: 14px !important;
+    border: 1px solid #1f2937 !important;
+    color: #f9fafb;
+}
+[data-theme="dark"] select option {
+    background-color: #1f2937;
+    color: #f9fafb;
+}
+[data-theme="dark"] select option[value=""] {
+    color: #9ca3af;
+}
 

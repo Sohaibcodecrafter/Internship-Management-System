@@ -12,7 +12,7 @@
 <form method="GET" action="" id="filterForm">
     <div class="filter-bar">
         <div class="search-bar">
-            <span class="search-icon">🔍</span>
+            <span class="search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
             <input type="text" name="search" class="live-search"
                    value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
                    placeholder="Search by name, industry, email...">
