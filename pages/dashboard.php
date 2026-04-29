@@ -21,7 +21,7 @@ $recentApps = $pdo->query("
     INNER JOIN students    s ON a.student_id    = s.student_id
     INNER JOIN internships i ON a.internship_id = i.internship_id
     INNER JOIN companies   c ON i.company_id    = c.company_id
-    ORDER BY a.applied_at DESC LIMIT 8
+    ORDER BY a.applied_at DESC LIMIT 10
 ")->fetchAll();
 
 // Top companies by application count

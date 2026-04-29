@@ -48,7 +48,7 @@
                 <td><span class="badge badge-<?= $cls ?>"><?= ucfirst($a['status']) ?></span></td>
                 <td>
                     <?php if ($a['cv_file']): ?>
-                        <a href="/ims/assets/uploads/cvs/<?= htmlspecialchars($a['cv_file']) ?>" target="_blank" class="btn btn-ghost btn-sm">📄 View</a>
+                        <a href="/ims/assets/uploads/cvs/<?= htmlspecialchars($a['cv_file']) ?>" target="_blank" class="btn btn-ghost btn-sm"><?= icon('file-text', 15) ?> View</a>
                     <?php else: ?>
                         <span style="color:var(--text-muted);font-size:0.8rem">None</span>
                     <?php endif; ?>

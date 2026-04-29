@@ -7,24 +7,25 @@
 
 <div class="ims-stats-grid">
     <div class="ims-stat-card">
-        <div class="ims-stat-card__top"><div class="ims-stat-card__icon" data-color="primary"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div></div>
+        <div class="ims-stat-card__top"><div class="ims-stat-card__icon" data-color="primary"><?= icon('briefcase', 20) ?></div></div>
         <div class="ims-stat-card__label">Total Internships</div>
-        <div class="ims-stat-card__value"><?= $stats['total_internships'] ?></div>
+        <div class="ims-stat-card__value"><?= $data['total_internships'] ?></div>
     </div>
     <div class="ims-stat-card">
-        <div class="ims-stat-card__top"><div class="ims-stat-card__icon" data-color="success"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div></div>
+        <div class="ims-stat-card__top"><div class="ims-stat-card__icon" data-color="success"><?= icon('file-text', 20) ?></div></div>
         <div class="ims-stat-card__label">Applications Received</div>
-        <div class="ims-stat-card__value"><?= $stats['total_applications'] ?></div>
+        <div class="ims-stat-card__value"><?= $data['total_applications'] ?></div>
     </div>
     <div class="ims-stat-card">
-        <div class="ims-stat-card__top"><div class="ims-stat-card__icon" data-color="warning"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div></div>
+        <div class="ims-stat-card__top"><div class="ims-stat-card__icon" data-color="warning"><?= icon('activity', 20) ?></div></div>
         <div class="ims-stat-card__label">Open Positions</div>
-        <div class="ims-stat-card__value"><?= $stats['open_internships'] ?></div>
+        <div class="ims-stat-card__value"><?= $data['open_internships'] ?></div>
     </div>
     <div class="ims-stat-card">
-        <div class="ims-stat-card__top"><div class="ims-stat-card__icon" data-color="accent"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div></div>
+        <div class="ims-stat-card__top"><div class="ims-stat-card__icon" data-color="accent"><?= icon('check-circle', 20) ?></div></div>
         <div class="ims-stat-card__label">Accepted Placements</div>
-        <div class="ims-stat-card__value"><?= $stats['accepted_placements'] ?></div>
+        <div class="ims-stat-card__value"><?= $data['accepted_placements'] ?></div>
+        <div class="ims-stat-card__sub"><?= $data['accepted_count'] ?> accepted · <?= $data['accepted_placements'] ?> placed</div>
     </div>
 </div>
 
@@ -50,5 +51,54 @@
             </table>
         </div>
     </div>
-    <div></div>
+
+    <!-- Step 11: Pie Chart -->
+    <div class="ims-panel" style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="ims-panel__header"><h3 class="ims-panel__title">Application Breakdown</h3></div>
+        <canvas id="ims-pie-chart" width="220" height="220" style="max-width:220px;margin:0 auto;display:block;"></canvas>
+        <div id="ims-pie-legend" style="display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin-top:0.5rem;"></div>
+    </div>
 </div>
+
+<script>
+(function() {
+    var raw   = <?= $data['pie_json'] ?>;
+    var total = Object.values(raw).reduce(function(a,b){return a+b;},0);
+    if (total === 0) return;
+    var colors = { pending:'#f59e0b', shortlisted:'#f97316', accepted:'#22c55e', rejected:'#ef4444' };
+    var canvas = document.getElementById('ims-pie-chart');
+    var legend = document.getElementById('ims-pie-legend');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var cx = canvas.width/2, cy = canvas.height/2, r = Math.min(cx,cy)-10;
+    var startAngle = -Math.PI/2;
+    var cs = getComputedStyle(document.documentElement);
+    var surfaceColor = cs.getPropertyValue('--ims-surface').trim() || '#fff';
+    var textColor = cs.getPropertyValue('--ims-text').trim() || '#111';
+    var mutedColor = cs.getPropertyValue('--ims-text-muted').trim() || '#6b7280';
+
+    Object.entries(raw).forEach(function(entry) {
+        var status = entry[0], count = entry[1];
+        if (count === 0) return;
+        var slice = (count/total) * 2 * Math.PI;
+        ctx.beginPath(); ctx.moveTo(cx,cy);
+        ctx.arc(cx,cy,r,startAngle,startAngle+slice);
+        ctx.closePath(); ctx.fillStyle = colors[status]||'#94a3b8'; ctx.fill();
+        startAngle += slice;
+        var pct = Math.round((count/total)*100);
+        var item = document.createElement('div');
+        item.style.cssText = 'display:flex;align-items:center;gap:0.35rem;font-size:0.72rem;';
+        item.innerHTML = '<span style="width:10px;height:10px;border-radius:50%;background:'+colors[status]+';flex-shrink:0"></span><span style="color:'+mutedColor+';text-transform:capitalize">'+status+' ('+pct+'%)</span>';
+        legend.appendChild(item);
+    });
+    // Donut hole
+    ctx.beginPath(); ctx.arc(cx,cy,r*0.55,0,2*Math.PI);
+    ctx.fillStyle = surfaceColor; ctx.fill();
+    // Center label
+    ctx.fillStyle = textColor; ctx.font = 'bold 1rem Inter, sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(total, cx, cy-8);
+    ctx.font = '0.65rem Inter, sans-serif'; ctx.fillStyle = mutedColor;
+    ctx.fillText('total', cx, cy+10);
+})();
+</script>

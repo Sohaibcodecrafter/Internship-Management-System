@@ -312,11 +312,20 @@
     background: var(--ims-surface);
     border-bottom: 1px solid var(--ims-border);
     padding: 0 1.5rem;
-    height: 64px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     box-shadow: var(--ims-shadow-sm);
+}
+
+.ims-portal-label {
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--ims-text-muted); line-height: 1;
+}
+.ims-portal-username {
+    font-size: 1.1rem; font-weight: 700; color: var(--ims-text);
+    margin-top: 0.15rem; line-height: 1.2;
 }
 
 .ims-topbar__left {

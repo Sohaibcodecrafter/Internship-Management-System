@@ -49,6 +49,9 @@ $browseHref = isset($_SESSION['user_id']) ? 'pages/internships.php' : 'auth/logi
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InternBridge PK — Find Your Internship</title>
     <meta name="description" content="InternBridge PK connects Pakistani students with verified companies for internship opportunities across Karachi, Lahore, Islamabad and beyond.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/design-system.css">
     <link rel="stylesheet" href="assets/css/components.css">
     <link rel="stylesheet" href="assets/css/landing.css">
@@ -87,19 +90,19 @@ $browseHref = isset($_SESSION['user_id']) ? 'pages/internships.php' : 'auth/logi
 <!-- ═══ HERO ═══ -->
 <section id="hero" class="ib-hero">
     <div class="ib-hero__content ib-reveal">
-        <div class="ib-hero__badge">
+        <div class="ib-hero__badge ib-reveal">
             <i data-lucide="flag" style="width:16px;height:16px"></i>
             For Pakistani Students & Companies
         </div>
-        <h1 class="ib-hero__title">
+        <h1 class="ib-hero__title ib-reveal" style="transition-delay:0.1s">
             Find Your <span class="ib-gradient-text">First Step</span><br>
             Toward a Career
         </h1>
-        <p class="ib-hero__sub">
+        <p class="ib-hero__sub ib-reveal" style="transition-delay:0.2s">
             InternBridge PK connects talented Pakistani students with verified
             companies across Karachi, Lahore, Islamabad, Peshawar and beyond.
         </p>
-        <div class="ib-hero__actions">
+        <div class="ib-hero__actions ib-reveal" style="transition-delay:0.3s">
             <a href="auth/login.php" class="btn btn-primary btn-lg">
                 <i data-lucide="graduation-cap" style="width:18px;height:18px"></i> I'm a Student
             </a>
@@ -108,7 +111,7 @@ $browseHref = isset($_SESSION['user_id']) ? 'pages/internships.php' : 'auth/logi
             </a>
         </div>
     </div>
-    <div class="ib-hero__deco" aria-hidden="true">
+    <div class="ib-hero__deco ib-reveal ib-reveal--right" style="transition-delay:0.15s" aria-hidden="true">
         <div class="ib-deco__ring ib-deco__ring--1"></div>
         <div class="ib-deco__ring ib-deco__ring--2"></div>
         <div class="ib-deco__ring ib-deco__ring--3"></div>
@@ -118,20 +121,20 @@ $browseHref = isset($_SESSION['user_id']) ? 'pages/internships.php' : 'auth/logi
 
 <!-- ═══ STATS ═══ -->
 <section class="ib-stats ib-reveal">
-    <div class="ib-stats__grid">
-        <div class="ib-stat" data-target="<?= (int)$stats['total_internships'] ?>">
+    <div class="ib-stats__grid ib-reveal-group">
+        <div class="ib-stat ib-reveal ib-reveal--scale" data-target="<?= (int)$stats['total_internships'] ?>">
             <span class="ib-stat__number">0</span>
             <span class="ib-stat__label">Internships Posted</span>
         </div>
-        <div class="ib-stat" data-target="<?= (int)$stats['total_students'] ?>">
+        <div class="ib-stat ib-reveal ib-reveal--scale" data-target="<?= (int)$stats['total_students'] ?>">
             <span class="ib-stat__number">0</span>
             <span class="ib-stat__label">Students Registered</span>
         </div>
-        <div class="ib-stat" data-target="<?= (int)$stats['total_companies'] ?>">
+        <div class="ib-stat ib-reveal ib-reveal--scale" data-target="<?= (int)$stats['total_companies'] ?>">
             <span class="ib-stat__number">0</span>
             <span class="ib-stat__label">Verified Companies</span>
         </div>
-        <div class="ib-stat" data-target="<?= (int)$stats['total_placements'] ?>">
+        <div class="ib-stat ib-reveal ib-reveal--scale" data-target="<?= (int)$stats['total_placements'] ?>">
             <span class="ib-stat__number">0</span>
             <span class="ib-stat__label">Successful Placements</span>
         </div>
@@ -142,7 +145,7 @@ $browseHref = isset($_SESSION['user_id']) ? 'pages/internships.php' : 'auth/logi
 <section id="how-it-works" class="ib-section">
     <h2 class="ib-section__title ib-reveal">How It Works</h2>
     <div class="ib-hiw__tracks">
-        <div class="ib-hiw__track ib-reveal">
+        <div class="ib-hiw__track ib-reveal ib-reveal--left">
             <h3 class="ib-hiw__track-title"><i data-lucide="graduation-cap"></i> For Students</h3>
             <div class="ib-hiw__steps">
                 <div class="ib-step"><div class="ib-step__num">1</div><div class="ib-step__text"><h4>Register Free</h4><p>Create your account in under a minute</p></div></div>
@@ -152,7 +155,7 @@ $browseHref = isset($_SESSION['user_id']) ? 'pages/internships.php' : 'auth/logi
                 <div class="ib-step"><div class="ib-step__num">5</div><div class="ib-step__text"><h4>Get Placed</h4><p>Land your first internship and start your career</p></div></div>
             </div>
         </div>
-        <div class="ib-hiw__track ib-reveal">
+        <div class="ib-hiw__track ib-reveal ib-reveal--right">
             <h3 class="ib-hiw__track-title"><i data-lucide="building-2"></i> For Companies</h3>
             <div class="ib-hiw__steps">
                 <div class="ib-step"><div class="ib-step__num">1</div><div class="ib-step__text"><h4>Register Company</h4><p>Set up your company profile with details</p></div></div>
@@ -171,9 +174,9 @@ $browseHref = isset($_SESSION['user_id']) ? 'pages/internships.php' : 'auth/logi
         <h2 class="ib-section__title" style="margin-bottom:0;text-align:left">Latest Open Internships</h2>
         <a href="<?= htmlspecialchars($browseHref) ?>" class="btn btn-outline">View All <i data-lucide="arrow-right" style="width:16px;height:16px"></i></a>
     </div>
-    <div class="ib-cards__grid">
+    <div class="ib-cards__grid ib-reveal-group">
         <?php foreach ($internships as $i): ?>
-        <div class="ib-icard ib-reveal">
+        <div class="ib-icard ib-reveal ib-reveal--scale">
             <div class="ib-icard__top">
                 <div class="ib-icard__company">
                     <div class="ib-icard__logo-placeholder"><?= strtoupper(substr($i['company_name'],0,1)) ?></div>
@@ -211,7 +214,7 @@ $browseHref = isset($_SESSION['user_id']) ? 'pages/internships.php' : 'auth/logi
 <section id="about" class="ib-section">
     <h2 class="ib-section__title ib-reveal">Why InternBridge?</h2>
     <div class="ib-features__grid">
-        <div class="ib-features__col ib-reveal">
+        <div class="ib-features__col ib-reveal ib-reveal--left">
             <h3><i data-lucide="graduation-cap"></i> For Students</h3>
             <ul>
                 <li><i data-lucide="search"></i> Browse internships filtered by city, field, and stipend</li>
@@ -222,7 +225,7 @@ $browseHref = isset($_SESSION['user_id']) ? 'pages/internships.php' : 'auth/logi
             </ul>
             <a href="auth/login.php" class="btn btn-primary">Get Started Free</a>
         </div>
-        <div class="ib-features__col ib-reveal">
+        <div class="ib-features__col ib-reveal ib-reveal--right">
             <h3><i data-lucide="building-2"></i> For Companies</h3>
             <ul>
                 <li><i data-lucide="megaphone"></i> Post internship listings in minutes</li>
@@ -258,22 +261,22 @@ $browseHref = isset($_SESSION['user_id']) ? 'pages/internships.php' : 'auth/logi
 <!-- ═══ TESTIMONIALS ═══ -->
 <section class="ib-section">
     <h2 class="ib-section__title ib-reveal">What Our Users Say</h2>
-    <div class="ib-testi__grid">
-        <div class="ib-testi__card ib-reveal">
+    <div class="ib-testi__grid ib-reveal-group">
+        <div class="ib-testi__card ib-reveal ib-reveal--scale">
             <p class="ib-testi__quote">"InternBridge helped me land my first internship at a Karachi-based fintech in just 2 weeks. The process was incredibly smooth."</p>
             <div class="ib-testi__author">
                 <div class="ib-testi__avatar">AK</div>
                 <div><strong>Ayesha Khan</strong><span>CS Student, FAST Karachi</span></div>
             </div>
         </div>
-        <div class="ib-testi__card ib-reveal">
+        <div class="ib-testi__card ib-reveal ib-reveal--scale">
             <p class="ib-testi__quote">"We hired 3 interns through InternBridge last quarter. The verified student profiles saved us so much screening time."</p>
             <div class="ib-testi__author">
                 <div class="ib-testi__avatar">MR</div>
                 <div><strong>M. Raza</strong><span>HR Manager, TechVentures Lahore</span></div>
             </div>
         </div>
-        <div class="ib-testi__card ib-reveal">
+        <div class="ib-testi__card ib-reveal ib-reveal--scale">
             <p class="ib-testi__quote">"The platform is simple and clean. I applied to 5 companies and tracked every application status in one place."</p>
             <div class="ib-testi__author">
                 <div class="ib-testi__avatar">UB</div>
@@ -286,18 +289,18 @@ $browseHref = isset($_SESSION['user_id']) ? 'pages/internships.php' : 'auth/logi
 <!-- ═══ FOOTER ═══ -->
 <footer class="ib-footer">
     <div class="ib-footer__inner">
-        <div class="ib-footer__brand">
+        <div class="ib-footer__brand ib-reveal ib-reveal--left">
             <span class="ib-logo-text">InternBridge <em>PK</em></span>
             <p>Connecting Pakistani talent with opportunity. We bridge the gap between education and industry across all major cities.</p>
         </div>
-        <div class="ib-footer__links">
+        <div class="ib-footer__links ib-reveal" style="transition-delay:0.1s">
             <h4>Platform</h4>
             <a href="auth/login.php">Login</a>
             <a href="auth/login.php">Student Register</a>
             <a href="auth/login.php">Company Register</a>
             <a href="pages/dashboard.php">Admin Panel</a>
         </div>
-        <div class="ib-footer__cities">
+        <div class="ib-footer__cities ib-reveal ib-reveal--right">
             <h4>Cities We Serve</h4>
             <p>Karachi · Lahore · Islamabad · Peshawar · Quetta · Multan · Faisalabad · Hyderabad</p>
         </div>

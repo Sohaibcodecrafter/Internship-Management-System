@@ -135,7 +135,7 @@
                     'accepted'=>'success', 'pending'=>'warning', default=>'primary'
                 };
                 $actIcon = match($act['status']) {
-                    'accepted'=>'✅', 'rejected'=>'❌', 'shortlisted'=>'⭐', default=>'📋'
+                    'accepted'=>icon('check-circle',18), 'rejected'=>icon('activity',18), 'shortlisted'=>icon('trending-up',18), default=>icon('briefcase',18)
                 };
                 $timeAgo = date('d M', strtotime($act['applied_at']));
             ?>

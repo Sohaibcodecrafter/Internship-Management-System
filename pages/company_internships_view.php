@@ -25,7 +25,11 @@
                         <input type="hidden" name="internship_id" value="<?= $i['internship_id'] ?>">
                         <input type="hidden" name="current_status" value="<?= $i['status'] ?>">
                         <button type="submit" name="toggle_status" class="btn btn-sm <?= $i['status'] === 'open' ? 'btn-ghost' : 'btn-primary' ?>">
-                            <?= $i['status'] === 'open' ? '🔒 Close' : '🔓 Reopen' ?>
+                            <?php if ($i['status'] === 'open'): ?>
+                                <?= icon('lock', 15) ?> Close
+                            <?php else: ?>
+                                <?= icon('unlock', 15) ?> Reopen
+                            <?php endif; ?>
                         </button>
                     </form>
                     <?php if ($i['app_count'] == 0): ?>

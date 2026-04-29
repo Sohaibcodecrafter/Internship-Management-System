@@ -11,6 +11,17 @@
     --ib-success-rgb: 0,200,150;
 }
 
+/* ── Merriweather for landing headings ── */
+.ib-hero__title, .ib-section__title, .ib-hiw__track-title,
+.ib-features__col h3, .ib-testi__quote,
+.ib-footer__brand .ib-logo-text {
+    font-family: 'Merriweather', Georgia, serif;
+}
+body { font-family: 'Inter', var(--font-sans, system-ui), sans-serif; }
+.ib-hero__title { font-weight: 900; font-style: normal; line-height: 1.15; }
+.ib-section__title { font-weight: 700; }
+.ib-testi__quote { font-weight: 300; font-style: italic; line-height: 1.8; }
+
 html { scroll-behavior: smooth; }
 
 .ib-landing {
@@ -46,7 +57,7 @@ html { scroll-behavior: smooth; }
 
 /* ═══ NAVBAR ═══ */
 .ib-nav {
-    position: fixed; top: 1.5rem; left: 50%;
+    position: fixed; top: 1.75rem; left: 50%;
     transform: translateX(-50%);
     width: min(90vw, 900px); z-index: 1000;
     background: rgba(255,255,255,0.05);
@@ -56,7 +67,7 @@ html { scroll-behavior: smooth; }
     border-radius: 9999px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
     transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    padding: 0.45rem 1.25rem;
+    padding: 0.85rem 1.75rem;
     perspective: 800px;
 }
 .ib-nav--scrolled {
@@ -70,6 +81,7 @@ html { scroll-behavior: smooth; }
 .ib-nav__inner {
     display: flex; align-items: center;
     justify-content: space-between; gap: 1rem;
+    min-height: 62px;
 }
 .ib-nav__logo {
     display: flex; align-items: center; gap: 0.4rem;
@@ -88,15 +100,15 @@ html { scroll-behavior: smooth; }
     font-weight: 700;
 }
 .ib-nav__links {
-    display: flex; align-items: center; gap: 0;
+    display: flex; align-items: center; gap: 0.25rem;
     list-style: none; position: relative;
-    margin: 0; padding: 4px;
+    margin: 0; padding: 0.35rem;
     background: rgba(255,255,255,0.04);
     border-radius: 9999px;
     border: 1px solid rgba(255,255,255,0.06);
 }
 .ib-nav__link {
-    padding: 0.45rem 1.1rem;
+    padding: 0.55rem 1.1rem;
     color: rgba(255,255,255,0.7);
     font-size: 0.84rem; font-weight: 500;
     white-space: nowrap;
@@ -453,13 +465,13 @@ html { scroll-behavior: smooth; }
 /* ═══ MARQUEE ═══ */
 .ib-marquee-section {
     position: relative; z-index: 1;
-    padding: clamp(2rem,4vw,3rem) 0;
+    padding: clamp(3rem,6vw,5rem) 0;
     overflow: hidden;
 }
 .ib-marquee__label {
-    text-align: center; font-size: 0.78rem;
+    text-align: center; font-size: 0.95rem;
     color: rgba(255,255,255,0.35); text-transform: uppercase;
-    letter-spacing: 0.1em; margin-bottom: 1.5rem;
+    letter-spacing: 0.05em; margin-bottom: 1.5rem; font-weight: 600;
 }
 .ib-marquee { overflow: hidden; }
 .ib-marquee__track {
@@ -467,11 +479,11 @@ html { scroll-behavior: smooth; }
     animation: ib-scroll 35s linear infinite;
 }
 .ib-marquee__track span {
-    padding: 0.5rem 1.5rem; border-radius: 9999px;
+    padding: 0.6rem 1.75rem; border-radius: 9999px;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.1);
-    color: rgba(255,255,255,0.5); font-size: 0.85rem;
-    font-weight: 500; white-space: nowrap;
+    color: rgba(255,255,255,0.5); font-size: 0.95rem;
+    font-weight: 500; white-space: nowrap; letter-spacing: 0.02em;
     transition: all 0.3s ease;
 }
 .ib-marquee__track span:hover {
@@ -564,10 +576,21 @@ html { scroll-behavior: smooth; }
 
 /* ═══ SCROLL REVEAL ═══ */
 .ib-reveal {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
 }
-.ib-reveal--visible { opacity: 1; transform: none; }
+.ib-reveal.ib-reveal--left { transform: translateX(-50px); }
+.ib-reveal.ib-reveal--right { transform: translateX(50px); }
+.ib-reveal.ib-reveal--scale { transform: scale(0.9) translateY(20px); }
+.ib-reveal--visible { opacity: 1; transform: none !important; }
+
+/* Stagger delays for grid children */
+.ib-reveal-group > *:nth-child(1) { transition-delay: 0.05s; }
+.ib-reveal-group > *:nth-child(2) { transition-delay: 0.15s; }
+.ib-reveal-group > *:nth-child(3) { transition-delay: 0.25s; }
+.ib-reveal-group > *:nth-child(4) { transition-delay: 0.35s; }
+.ib-reveal-group > *:nth-child(5) { transition-delay: 0.45s; }
+.ib-reveal-group > *:nth-child(6) { transition-delay: 0.55s; }
 
 /* ═══ RESPONSIVE ═══ */
 @media (max-width: 1024px) {
