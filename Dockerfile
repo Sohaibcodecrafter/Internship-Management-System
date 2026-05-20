@@ -32,6 +32,9 @@ WORKDIR /var/www/html
 # Copy all project files into the container
 COPY . .
 
+# Rewrite hardcoded local XAMPP paths (/ims/) to root (/) for Railway
+RUN find . -name "*.php" -exec sed -i 's|/ims/|/|g' {} +
+
 # Create upload directories and set permissions
 RUN mkdir -p assets/uploads/cvs \
              assets/uploads/logos \
