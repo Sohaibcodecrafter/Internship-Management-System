@@ -1,0 +1,37 @@
+Options -Indexes
+RewriteEngine On
+
+# Force HTTPS in production (Railway provides SSL automatically)
+RewriteCond %{HTTP:X-Forwarded-Proto} =http
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirect root to index.php landing page
+RewriteRule ^$ index.php [L]
+
+# Block direct access to sensitive directories
+RewriteRule ^includes/ - [F,L]
+RewriteRule ^sql/ - [F,L]
+RewriteRule ^\.git - [F,L]
+
+# Block access to sensitive file types
+<FilesMatch "\.(env|log|sql|sh|md)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Allow uploads to be served
+<FilesMatch "\.(jpg|jpeg|png|gif|pdf|docx)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+# PHP settings for production
+php_value upload_max_filesize 10M
+php_value post_max_size 12M
+php_value max_execution_time 60
+php_value memory_limit 256M
+
+# Security headers
+Header always set X-Content-Type-Options nosniff
+Header always set X-Frame-Options SAMEORIGIN
+Header always set X-XSS-Protection "1; mode=block"

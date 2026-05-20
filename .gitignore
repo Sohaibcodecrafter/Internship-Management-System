@@ -1,0 +1,33 @@
+# Sensitive files - never commit these
+includes/db_local.php
+.env
+.env.local
+
+# Uploaded user files (too large for git, use volumes on Railway)
+assets/uploads/cvs/*.pdf
+assets/uploads/cvs/*.docx
+assets/uploads/logos/*.jpg
+assets/uploads/logos/*.png
+assets/uploads/photos/*.jpg
+assets/uploads/photos/*.png
+
+# Keep the upload folders but not their contents
+!assets/uploads/cvs/.gitkeep
+!assets/uploads/logos/.gitkeep
+!assets/uploads/photos/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+error_log
+
+# SQL dumps (don't commit local dumps)
+sql/local_backup_*.sql

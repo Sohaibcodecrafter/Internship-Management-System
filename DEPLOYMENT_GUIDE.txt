@@ -1,0 +1,234 @@
+# InternBridge PK — Deployment Guide
+# Deploy PHP + MySQL to Railway (Free)
+
+=========================================================
+WHAT YOU NEED (5 minutes of setup)
+=========================================================
+1. GitHub account (free) — github.com
+2. Railway account (free) — railway.app
+3. Your IMS project folder
+4. The files in this package
+
+=========================================================
+STEP 1 — ADD DEPLOYMENT FILES TO YOUR PROJECT
+=========================================================
+
+Copy these files into your IMS project root
+(same folder as index.php):
+
+  Dockerfile              ← tells Railway how to build PHP + Apache
+  railway.toml            ← Railway configuration
+  .htaccess               ← replaces/updates your existing one
+  .gitignore              ← prevents sensitive files being pushed
+  ims_railway_import.sql  ← import this to Railway's MySQL
+
+Replace your existing includes/db.php with the new one provided.
+The new db.php reads database credentials from environment
+variables automatically — works on both XAMPP and Railway.
+
+Create these empty placeholder files so Git tracks the folders:
+  assets/uploads/cvs/.gitkeep
+  assets/uploads/logos/.gitkeep
+  assets/uploads/photos/.gitkeep
+
+=========================================================
+STEP 2 — PUSH PROJECT TO GITHUB
+=========================================================
+
+Open Command Prompt in your project folder:
+
+  cd "D:\Coding_Shit\Antigravity-Dumb\Data base\ims"
+
+If you have NOT set up git yet:
+  git init
+  git add .
+  git commit -m "Initial commit — InternBridge PK"
+  git branch -M main
+
+Create a new repo on github.com (click + → New repository)
+Name it: internbridge-pk
+Set it to PUBLIC
+Do NOT add README or .gitignore (you already have one)
+
+Then:
+  git remote add origin https://github.com/YOUR_USERNAME/internbridge-pk.git
+  git push -u origin main
+
+If you ALREADY have git set up:
+  git add .
+  git commit -m "Add Railway deployment files"
+  git push
+
+=========================================================
+STEP 3 — CREATE RAILWAY PROJECT
+=========================================================
+
+1. Go to railway.app
+2. Click "Start a New Project"
+3. Sign in with GitHub (authorize Railway)
+4. Click "Deploy from GitHub repo"
+5. Find and select your internbridge-pk repo
+6. Railway will start building automatically using your Dockerfile
+
+Wait ~2 minutes. You will see build logs.
+If build succeeds, you get a green checkmark.
+
+=========================================================
+STEP 4 — ADD MYSQL DATABASE
+=========================================================
+
+1. In your Railway project dashboard, click "+ New"
+2. Select "Database"
+3. Select "Add MySQL"
+4. Railway creates a MySQL service automatically
+
+Now click on the MySQL service to see its details.
+Go to the "Variables" tab and note these values:
+  MYSQLHOST
+  MYSQLPORT
+  MYSQLDATABASE  (usually "railway")
+  MYSQLUSER      (usually "root")
+  MYSQLPASSWORD
+
+=========================================================
+STEP 5 — IMPORT YOUR DATABASE
+=========================================================
+
+Option A — Railway Data Tab (Easiest):
+1. Click on your MySQL service
+2. Go to the "Data" tab
+3. Click "Connect" or use the Query editor
+4. Paste the contents of ims_railway_import.sql
+5. Click Run
+
+Option B — MySQL CLI (if you have MySQL installed):
+Get the "Public URL" from MySQL service → Connect tab.
+It looks like: mysql.railway.app:PORT
+
+Run:
+  mysql -h mysql.railway.app -P PORT -u root -p railway < ims_railway_import.sql
+
+Option C — TablePlus or DBeaver (GUI tools):
+1. Download TablePlus (free) from tableplus.com
+2. Create new connection with Railway MySQL details
+3. File → Import → SQL file → select ims_railway_import.sql
+
+=========================================================
+STEP 6 — LINK APP TO DATABASE
+=========================================================
+
+Railway does this automatically using internal networking!
+
+Click on your PHP app service → "Variables" tab
+Add these variables (copy values from MySQL service):
+
+  MYSQLHOST      = mysql.railway.internal
+  MYSQLPORT      = 3306
+  MYSQLDATABASE  = railway
+  MYSQLUSER      = root
+  MYSQLPASSWORD  = (paste from MySQL service variables)
+
+IMPORTANT: Use "mysql.railway.internal" (not the public URL)
+for the host — this is faster internal networking.
+
+Click "Save" — Railway will redeploy your app automatically.
+
+=========================================================
+STEP 7 — GET YOUR LIVE URL
+=========================================================
+
+1. Click on your PHP app service
+2. Go to "Settings" tab
+3. Under "Networking" → click "Generate Domain"
+4. You get a URL like: internbridge-pk.up.railway.app
+
+Visit that URL — your IMS is now LIVE on the internet!
+
+=========================================================
+STEP 8 — VERIFY EVERYTHING WORKS
+=========================================================
+
+Test these pages on your live URL:
+
+  /                          → Landing page
+  /auth/login.php            → Login page
+  /auth/register.php         → Register page
+
+Login as admin:   admin@ims.pk / Password123
+Login as student: ahmed.ali@fast.edu.pk / Password123
+Login as company: hr@techventures.pk / Password123
+
+=========================================================
+TROUBLESHOOTING
+=========================================================
+
+Problem: "Database connection error"
+Fix: Check MYSQLPASSWORD in your app's Variables tab
+     Make sure MYSQLHOST = mysql.railway.internal (not the public host)
+
+Problem: Build fails with "Dockerfile not found"
+Fix: Make sure Dockerfile is in the ROOT of your project
+     (same level as index.php), not inside a subfolder
+
+Problem: "Permission denied" on file uploads
+Fix: The Dockerfile already handles this with chmod 777 on uploads/
+     If still failing, go to Railway → Service → Shell and run:
+     chmod -R 777 /var/www/html/assets/uploads
+
+Problem: Pages redirect to localhost/ims instead of live URL
+Fix: Search your PHP files for hardcoded "localhost/ims" and
+     replace with relative paths like "../" or "/"
+
+Problem: CSS/JS not loading
+Fix: Check .htaccess is in the root directory
+     Make sure asset paths in header.php are relative (not absolute)
+
+Problem: Railway says "No start command"
+Fix: Make sure railway.toml is in the root and Dockerfile exists
+
+=========================================================
+KEEPING IT UPDATED
+=========================================================
+
+Every time you make changes locally:
+  git add .
+  git commit -m "describe your change"
+  git push
+
+Railway auto-detects the push and redeploys in ~1-2 minutes.
+No manual steps needed after the initial setup.
+
+=========================================================
+FREE TIER LIMITS (Railway Hobby Plan)
+=========================================================
+
+Railway gives you $5 of free credits per month.
+Your PHP + MySQL project will use approximately:
+  PHP App:   ~$1-2/month (512MB RAM)
+  MySQL DB:  ~$1-2/month (1GB storage)
+Total: ~$2-4/month — comfortably within the free $5 credits.
+
+If you exceed free credits, you can either:
+  - Add a credit card (pay only the overage)
+  - Switch to InfinityFree (completely free, see below)
+
+=========================================================
+ALTERNATIVE: INFINITYFREE (100% Free, No Card)
+=========================================================
+
+If you don't want to use Railway at all:
+
+1. Go to infinityfree.com
+2. Create free account
+3. Create a hosting account (free subdomain)
+4. Use their File Manager to upload your project files
+5. Use their MySQL database panel to import ims_railway_import.sql
+6. Update includes/db.php with their provided DB credentials
+7. Your site runs on: yoursite.infinityfree.app
+
+InfinityFree does NOT need Docker or GitHub — just upload files.
+However it's slower and has more limitations than Railway.
+
+=========================================================
+END OF DEPLOYMENT GUIDE
+=========================================================
