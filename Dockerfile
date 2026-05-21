@@ -51,8 +51,10 @@ RUN echo '<Directory /var/www/html>\n\
 </Directory>' > /etc/apache2/conf-available/ims.conf \
     && a2enconf ims
 
-# Railway automatically routes traffic to EXPOSE 80 for Dockerfile apps
-EXPOSE 80
+# Railway sets PORT env var — Apache must listen on it
+# Default fallback is 80
+ENV PORT=80
+EXPOSE ${PORT}
 
 # Startup script: fix Apache configuration at runtime then start
 COPY entrypoint.sh /usr/local/bin/
