@@ -22,8 +22,8 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache mod_rewrite for .htaccess support
-RUN a2enmod rewrite
+# Enable Apache mod_rewrite for .htaccess support and fix conflicting MPM modules
+RUN a2dismod mpm_event mpm_worker && a2enmod mpm_prefork rewrite
 
 # Set the document root to /var/www/html (Apache default)
 # Your project files will be copied here
