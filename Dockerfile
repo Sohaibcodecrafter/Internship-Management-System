@@ -22,9 +22,8 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache mod_rewrite for .htaccess support and strictly enforce mpm_prefork
-RUN rm -f /etc/apache2/mods-enabled/mpm_* \
-    && a2enmod mpm_prefork rewrite
+# Enable Apache mod_rewrite for .htaccess support
+RUN a2enmod rewrite
 
 # Set the document root to /var/www/html (Apache default)
 # Your project files will be copied here
@@ -57,7 +56,7 @@ RUN echo '<Directory /var/www/html>\n\
 ENV PORT=80
 EXPOSE ${PORT}
 
-# Startup script: update Apache port then start
-CMD sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf \
-    && sed -i "s/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf \
-    && apache2-foreground
+# Startup script: fix Apache configuration at runtime then start
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
+CMD ["/usr/local/bin/entrypoint.sh"]
