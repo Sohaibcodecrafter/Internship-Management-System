@@ -11,7 +11,7 @@
  * For local XAMPP: none of these are set, so the defaults below are used.
  */
 
-function getPDO(): PDO {
+function getDB(): PDO {
     static $pdo = null;
     if ($pdo !== null) return $pdo;
 
