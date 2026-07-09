@@ -38,22 +38,22 @@
                 $cls = match($a['status']) { 'accepted'=>'success','pending'=>'warning','rejected'=>'danger','shortlisted'=>'primary', default=>'neutral' };
             ?>
             <tr>
-                <td>
+                <td data-label="Student">
                     <div style="font-weight:500"><?= htmlspecialchars($a['full_name']) ?></div>
                     <div style="font-size:0.75rem;color:var(--text-muted)"><?= htmlspecialchars($a['email']) ?></div>
                 </td>
-                <td style="font-size:0.85rem"><?= htmlspecialchars($a['dept_name'] ?? '—') ?></td>
-                <td><?= htmlspecialchars($a['internship_title']) ?></td>
-                <td style="font-size:0.8rem;color:var(--text-muted)"><?= date('d M Y', strtotime($a['applied_at'])) ?></td>
-                <td><span class="badge badge-<?= $cls ?>"><?= ucfirst($a['status']) ?></span></td>
-                <td>
+                <td data-label="Department" style="font-size:0.85rem"><?= htmlspecialchars($a['dept_name'] ?? '—') ?></td>
+                <td data-label="Internship"><?= htmlspecialchars($a['internship_title']) ?></td>
+                <td data-label="Applied" style="font-size:0.8rem;color:var(--text-muted)"><?= date('d M Y', strtotime($a['applied_at'])) ?></td>
+                <td data-label="Status"><span class="badge badge-<?= $cls ?>"><?= ucfirst($a['status']) ?></span></td>
+                <td data-label="CV">
                     <?php if ($a['cv_file']): ?>
-                        <a href="/ims/assets/uploads/cvs/<?= htmlspecialchars($a['cv_file']) ?>" target="_blank" class="btn btn-ghost btn-sm"><?= icon('file-text', 15) ?> View</a>
+                        <a href="/assets/uploads/cvs/<?= htmlspecialchars($a['cv_file']) ?>" target="_blank" class="btn btn-ghost btn-sm"><?= icon('file-text', 15) ?> View</a>
                     <?php else: ?>
                         <span style="color:var(--text-muted);font-size:0.8rem">None</span>
                     <?php endif; ?>
                 </td>
-                <td>
+                <td data-label="Action">
                     <form method="POST" style="display:flex;gap:4px;align-items:center">
                         <input type="hidden" name="application_id" value="<?= $a['application_id'] ?>">
                         <select name="new_status" class="select-field" style="min-width:120px;padding:4px 8px;font-size:0.8rem">

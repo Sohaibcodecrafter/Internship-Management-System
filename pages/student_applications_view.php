@@ -14,13 +14,13 @@
                 $cls = $statusColors[$a['app_status']] ?? 'neutral';
             ?>
             <tr>
-                <td><?= htmlspecialchars($a['company_name']) ?></td>
-                <td><?= htmlspecialchars($a['internship_title']) ?></td>
-                <td><?= htmlspecialchars($a['company_city'] ?? '—') ?></td>
-                <td><?= $a['stipend'] > 0 ? 'PKR ' . number_format($a['stipend']) : '—' ?></td>
-                <td style="font-size:0.8rem;color:var(--text-muted)"><?= date('d M Y', strtotime($a['applied_at'])) ?></td>
-                <td><span class="badge badge-<?= $cls ?>"><?= ucfirst($a['app_status']) ?></span></td>
-                <td>
+                <td data-label="Company"><?= htmlspecialchars($a['company_name']) ?></td>
+                <td data-label="Internship"><?= htmlspecialchars($a['internship_title']) ?></td>
+                <td data-label="City"><?= htmlspecialchars($a['company_city'] ?? '—') ?></td>
+                <td data-label="Stipend"><?= $a['stipend'] > 0 ? 'PKR ' . number_format($a['stipend']) : '—' ?></td>
+                <td data-label="Applied" style="font-size:0.8rem;color:var(--text-muted)"><?= date('d M Y', strtotime($a['applied_at'])) ?></td>
+                <td data-label="Status"><span class="badge badge-<?= $cls ?>"><?= ucfirst($a['app_status']) ?></span></td>
+                <td data-label="Action">
                     <?php if ($a['app_status'] === 'accepted' && !empty($a['placement_id'])): ?>
                         <a href="student_rate.php?company_id=<?= $a['company_id'] ?>" class="btn btn-primary btn-sm">⭐ Rate</a>
                     <?php elseif ($a['app_status'] === 'accepted'): ?>

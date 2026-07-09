@@ -18,18 +18,18 @@
             <tbody>
             <?php foreach ($pending as $c): ?>
             <tr>
-                <td>
+                <td data-label="Company">
                     <div style="font-weight:600"><?= htmlspecialchars($c['company_name']) ?></div>
                     <?php if (!empty($c['verification_requested'])): ?>
                         <span class="badge" style="background:var(--accent-warning);color:#fff;font-size:0.65rem;margin-top:4px">🔄 Re-verify Request</span>
                     <?php endif; ?>
                 </td>
-                <td><?= htmlspecialchars($c['industry']) ?></td>
-                <td><?= htmlspecialchars($c['city']) ?></td>
-                <td style="font-size:0.85rem"><?= htmlspecialchars($c['contact_email']) ?></td>
-                <td style="font-size:0.8rem;color:var(--text-muted)"><?= date('d M Y', strtotime($c['reg_date'])) ?></td>
-                <td><span class="badge badge-<?= $c['is_active'] ? 'success' : 'danger' ?>"><?= $c['is_active'] ? 'Active' : 'Inactive' ?></span></td>
-                <td style="display:flex;gap:4px">
+                <td data-label="Industry"><?= htmlspecialchars($c['industry']) ?></td>
+                <td data-label="City"><?= htmlspecialchars($c['city']) ?></td>
+                <td data-label="Contact Email" style="font-size:0.85rem"><?= htmlspecialchars($c['contact_email']) ?></td>
+                <td data-label="Registered" style="font-size:0.8rem;color:var(--text-muted)"><?= date('d M Y', strtotime($c['reg_date'])) ?></td>
+                <td data-label="Account"><span class="badge badge-<?= $c['is_active'] ? 'success' : 'danger' ?>"><?= $c['is_active'] ? 'Active' : 'Inactive' ?></span></td>
+                <td data-label="Actions" style="display:flex;gap:4px">
                     <form method="POST" style="display:inline">
                         <input type="hidden" name="company_id" value="<?= $c['company_id'] ?>">
                         <button type="submit" name="approve" class="btn btn-primary btn-sm">✓ Approve</button>

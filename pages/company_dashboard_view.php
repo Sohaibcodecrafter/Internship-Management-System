@@ -40,10 +40,10 @@
                     $cls = match($r['status']) { 'accepted'=>'success','pending'=>'warning','rejected'=>'danger','shortlisted'=>'primary', default=>'neutral' };
                 ?>
                 <tr>
-                    <td><?= htmlspecialchars($r['full_name']) ?></td>
-                    <td><?= htmlspecialchars($r['title']) ?></td>
-                    <td style="font-size:0.8rem;color:var(--text-muted)"><?= date('d M Y', strtotime($r['applied_at'])) ?></td>
-                    <td><span class="badge badge-<?= $cls ?>"><?= ucfirst($r['status']) ?></span></td>
+                    <td data-label="Student"><?= htmlspecialchars($r['full_name']) ?></td>
+                    <td data-label="Internship"><?= htmlspecialchars($r['title']) ?></td>
+                    <td data-label="Date" style="font-size:0.8rem;color:var(--text-muted)"><?= date('d M Y', strtotime($r['applied_at'])) ?></td>
+                    <td data-label="Status"><span class="badge badge-<?= $cls ?>"><?= ucfirst($r['status']) ?></span></td>
                 </tr>
                 <?php endforeach; ?>
                 <?php if (empty($recentApps)): ?><tr><td colspan="4" style="text-align:center;color:var(--text-muted)">No applications yet</td></tr><?php endif; ?>

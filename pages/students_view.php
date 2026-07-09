@@ -67,25 +67,25 @@
             <tbody>
                 <?php foreach ($students as $s): ?>
                 <tr>
-                    <td style="color:var(--text-muted)"><?= $s['student_id'] ?></td>
-                    <td style="font-weight:500"><?= htmlspecialchars($s['full_name']) ?></td>
-                    <td style="color:var(--text-secondary)"><?= htmlspecialchars($s['email']) ?></td>
-                    <td><span class="badge badge-primary"><?= htmlspecialchars($s['dept_name']) ?></span></td>
-                    <td style="font-weight:600"><?= number_format($s['gpa'], 2) ?></td>
-                    <td style="color:var(--text-muted)"><?= $s['enrollment_year'] ?></td>
-                    <td>
+                    <td data-label="ID" style="color:var(--text-muted)"><?= $s['student_id'] ?></td>
+                    <td data-label="Name" style="font-weight:500"><?= htmlspecialchars($s['full_name']) ?></td>
+                    <td data-label="Email" style="color:var(--text-secondary)"><?= htmlspecialchars($s['email']) ?></td>
+                    <td data-label="Department"><span class="badge badge-primary"><?= htmlspecialchars($s['dept_name']) ?></span></td>
+                    <td data-label="GPA" style="font-weight:600"><?= number_format($s['gpa'], 2) ?></td>
+                    <td data-label="Year" style="color:var(--text-muted)"><?= $s['enrollment_year'] ?></td>
+                    <td data-label="Status">
                         <?php $cls = match($s['status']) {
                             'active'=>'success','graduated'=>'primary','dropped'=>'danger', default=>'neutral'
                         }; ?>
                         <span class="badge badge-<?= $cls ?>"><?= ucfirst($s['status']) ?></span>
                     </td>
-                    <td>
+                    <td data-label="Account">
                         <?php if (isset($s['is_active'])): ?>
                             <span class="badge badge-<?= $s['is_active'] ? 'success' : 'danger' ?>"><?= $s['is_active'] ? 'Active' : 'Inactive' ?></span>
                         <?php endif; ?>
                     </td>
                     <?php if (isAdmin()): ?>
-                    <td>
+                    <td data-label="Actions">
                         <form method="POST" style="display:inline">
                             <input type="hidden" name="user_id" value="<?= $s['user_id'] ?>">
                             <input type="hidden" name="new_active" value="<?= $s['is_active'] ? 0 : 1 ?>">

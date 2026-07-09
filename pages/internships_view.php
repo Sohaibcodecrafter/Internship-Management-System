@@ -45,16 +45,16 @@
             <tbody>
                 <?php foreach ($internships as $i): ?>
                 <tr>
-                    <td style="font-weight:500"><?= htmlspecialchars($i['title']) ?></td>
-                    <td><?= htmlspecialchars($i['company_name']) ?></td>
-                    <td><span class="badge badge-primary"><?= htmlspecialchars($i['domain']) ?></span></td>
-                    <td style="color:var(--text-secondary)"><?= htmlspecialchars($i['supervisor_name'] ?? '—') ?></td>
-                    <td style="font-weight:600">PKR <?= number_format($i['stipend']) ?></td>
-                    <td style="color:var(--text-muted)"><?= $i['duration_months'] ?> mo</td>
-                    <td><?= $i['slots'] ?></td>
-                    <td><?php $cls = match($i['status']){'open'=>'success','closed'=>'danger','completed'=>'primary',default=>'neutral'}; ?><span class="badge badge-<?= $cls ?>"><?= ucfirst($i['status']) ?></span></td>
+                    <td data-label="Title" style="font-weight:500"><?= htmlspecialchars($i['title']) ?></td>
+                    <td data-label="Company"><?= htmlspecialchars($i['company_name']) ?></td>
+                    <td data-label="Domain"><span class="badge badge-primary"><?= htmlspecialchars($i['domain']) ?></span></td>
+                    <td data-label="Supervisor" style="color:var(--text-secondary)"><?= htmlspecialchars($i['supervisor_name'] ?? '—') ?></td>
+                    <td data-label="Stipend" style="font-weight:600">PKR <?= number_format($i['stipend']) ?></td>
+                    <td data-label="Duration" style="color:var(--text-muted)"><?= $i['duration_months'] ?> mo</td>
+                    <td data-label="Slots"><?= $i['slots'] ?></td>
+                    <td data-label="Status"><?php $cls = match($i['status']){'open'=>'success','closed'=>'danger','completed'=>'primary',default=>'neutral'}; ?><span class="badge badge-<?= $cls ?>"><?= ucfirst($i['status']) ?></span></td>
                     <?php if (isAdmin()): ?>
-                    <td>
+                    <td data-label="Action">
                         <?php if ($i['status'] === 'open'): ?>
                         <form method="POST" style="display:inline">
                             <input type="hidden" name="internship_id" value="<?= $i['internship_id'] ?>">

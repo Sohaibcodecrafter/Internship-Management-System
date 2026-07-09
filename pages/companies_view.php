@@ -64,27 +64,27 @@
             <tbody>
                 <?php foreach ($companies as $c): ?>
                 <tr>
-                    <td style="color:var(--text-muted)"><?= $c['company_id'] ?></td>
-                    <td style="font-weight:500"><?= htmlspecialchars($c['company_name']) ?></td>
-                    <td style="color:var(--text-secondary)"><?= htmlspecialchars($c['industry']) ?></td>
-                    <td><?= htmlspecialchars($c['city']) ?></td>
-                    <td style="color:var(--text-secondary);font-size:0.8rem"><?= htmlspecialchars($c['contact_email']) ?></td>
-                    <td style="color:var(--text-muted)"><?= htmlspecialchars($c['contact_phone'] ?? '—') ?></td>
-                    <td style="color:var(--text-muted)"><?= $c['established_year'] ?? '—' ?></td>
-                    <td>
+                    <td data-label="ID" style="color:var(--text-muted)"><?= $c['company_id'] ?></td>
+                    <td data-label="Company Name" style="font-weight:500"><?= htmlspecialchars($c['company_name']) ?></td>
+                    <td data-label="Industry" style="color:var(--text-secondary)"><?= htmlspecialchars($c['industry']) ?></td>
+                    <td data-label="City"><?= htmlspecialchars($c['city']) ?></td>
+                    <td data-label="Contact Email" style="color:var(--text-secondary);font-size:0.8rem"><?= htmlspecialchars($c['contact_email']) ?></td>
+                    <td data-label="Phone" style="color:var(--text-muted)"><?= htmlspecialchars($c['contact_phone'] ?? '—') ?></td>
+                    <td data-label="Est. Year" style="color:var(--text-muted)"><?= $c['established_year'] ?? '—' ?></td>
+                    <td data-label="Status">
                         <?php if ($c['verified']): ?>
                             <span class="badge badge-success">Verified</span>
                         <?php else: ?>
                             <span class="badge badge-warning">Pending</span>
                         <?php endif; ?>
                     </td>
-                    <td>
+                    <td data-label="Account">
                         <?php if (isset($c['is_active'])): ?>
                             <span class="badge badge-<?= $c['is_active'] ? 'success' : 'danger' ?>"><?= $c['is_active'] ? 'Active' : 'Inactive' ?></span>
                         <?php endif; ?>
                     </td>
                     <?php if (isAdmin()): ?>
-                    <td>
+                    <td data-label="Actions">
                         <form method="POST" style="display:inline">
                             <input type="hidden" name="user_id" value="<?= $c['user_id'] ?>">
                             <input type="hidden" name="new_active" value="<?= $c['is_active'] ? 0 : 1 ?>">

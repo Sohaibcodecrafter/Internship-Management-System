@@ -31,10 +31,10 @@ function icon(string $name, int $size = 16, string $class = ''): string {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMS — <?= htmlspecialchars($pageTitle ?? 'Dashboard') ?></title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/ims/assets/css/design-system.css">
-    <link rel="stylesheet" href="/ims/assets/css/components.css">
-    <link rel="stylesheet" href="/ims/assets/css/layout.css">
-    <link rel="stylesheet" href="/ims/assets/css/sidebar-upgrade.css">
+    <link rel="stylesheet" href="/assets/css/design-system.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/layout.css">
+    <link rel="stylesheet" href="/assets/css/sidebar-upgrade.css">
 </head>
 <body>
 <div class="ims-layout" id="ims-layout">

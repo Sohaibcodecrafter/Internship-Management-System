@@ -33,7 +33,7 @@ html { scroll-behavior: smooth; }
 /* ═══ SHADER CANVAS ═══ */
 #ib-shader-canvas {
     position: fixed; top: 0; left: 0;
-    width: 100vw; height: 100vh;
+    width: 100%; height: 100vh;
     z-index: 0; pointer-events: none;
 }
 
@@ -211,7 +211,7 @@ html { scroll-behavior: smooth; }
 .ib-hero__badge svg { width: 16px; height: 16px; }
 .ib-hero__title {
     font-family: 'DM Serif Display', serif;
-    font-size: clamp(2.2rem,6vw,3.8rem);
+    font-size: clamp(2rem, 6vw, 4rem);
     line-height: 1.15; color: #fff;
     margin-bottom: 1.25rem;
 }
@@ -625,10 +625,10 @@ html { scroll-behavior: smooth; }
     .ib-nav__pill { display: none; }
     .ib-nav__cta { display: none; }
     .ib-nav__hamburger { display: flex; }
-    .ib-hero__title { font-size: clamp(1.8rem,7vw,2.5rem); }
+    .ib-hero__title { font-size: clamp(2rem, 6vw, 4rem); }
     .ib-hero__deco { width: 300px; height: 300px; }
     .ib-stats__grid { grid-template-columns: repeat(2, 1fr); }
     .ib-testi__grid { grid-template-columns: 1fr; }
     .ib-footer__inner { grid-template-columns: 1fr; }
-    .ib-hero__actions { flex-direction: column; align-items: center; }
+    .ib-hero__actions { flex-direction: column; align-items: stretch; }
 }

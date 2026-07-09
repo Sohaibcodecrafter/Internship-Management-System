@@ -35,9 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Role-based redirect
                 switch ($user['role']) {
-                    case 'student': header('Location: /ims/pages/student_internships.php'); break;
-                    case 'company': header('Location: /ims/pages/company_dashboard.php'); break;
-                    default:        header('Location: /ims/pages/dashboard.php'); break;
+                    case 'student': header('Location: /pages/student_internships.php'); break;
+                    case 'company': header('Location: /pages/company_dashboard.php'); break;
+                    default:        header('Location: /pages/dashboard.php'); break;
                 }
                 exit;
             }

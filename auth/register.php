@@ -4,7 +4,7 @@ require_once __DIR__ . '/../includes/auth.php';
 
 // Redirect if already logged in
 if (isset($_SESSION['user_id'])) {
-    header('Location: /ims/pages/dashboard.php');
+    header('Location: /pages/dashboard.php');
     exit;
 }
 
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Registration successful! Your company account is pending admin verification.'];
             }
 
-            header('Location: /ims/auth/login.php');
+            header('Location: /auth/login.php');
             exit;
         } catch (PDOException $e) {
             $pdo->rollBack();

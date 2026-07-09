@@ -48,7 +48,7 @@
             <label class="input-label">CV (PDF/DOCX, max 2MB)</label>
             <input type="file" name="cv_file" class="input-field" accept=".pdf,.doc,.docx">
             <?php if ($student['cv_file']): ?>
-                <a href="/ims/assets/uploads/cvs/<?= htmlspecialchars($student['cv_file']) ?>" target="_blank" style="font-size:0.8rem;color:var(--accent-primary);margin-top:4px;display:inline-block">
+                <a href="/assets/uploads/cvs/<?= htmlspecialchars($student['cv_file']) ?>" target="_blank" style="font-size:0.8rem;color:var(--accent-primary);margin-top:4px;display:inline-block">
                     📄 <?= htmlspecialchars($student['cv_file']) ?>
                 </a>
             <?php endif; ?>
@@ -57,7 +57,7 @@
             <label class="input-label">Profile Photo (JPG/PNG, max 1MB)</label>
             <input type="file" name="profile_pic" class="input-field" accept=".jpg,.jpeg,.png">
             <?php if (!empty($student['profile_pic'])): ?>
-                <img src="/ims/assets/uploads/photos/<?= htmlspecialchars($student['profile_pic']) ?>" alt="Profile" style="width:80px;height:80px;border-radius:50%;object-fit:cover;margin-top:8px">
+                <img src="/assets/uploads/photos/<?= htmlspecialchars($student['profile_pic']) ?>" alt="Profile" style="width:80px;height:80px;border-radius:50%;object-fit:cover;margin-top:8px">
             <?php endif; ?>
         </div>
         <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:var(--s3)">Save Profile</button>

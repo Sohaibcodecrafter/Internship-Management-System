@@ -13,14 +13,14 @@
             <tbody>
             <?php foreach ($internships as $i): ?>
             <tr>
-                <td style="font-weight:500"><?= htmlspecialchars($i['title']) ?></td>
-                <td><span class="badge badge-primary"><?= htmlspecialchars($i['domain']) ?></span></td>
-                <td><?= $i['stipend'] > 0 ? 'PKR ' . number_format($i['stipend']) : '—' ?></td>
-                <td><?= $i['duration_months'] ?>m</td>
-                <td style="font-size:0.8rem"><?= date('d M Y', strtotime($i['start_date'])) ?></td>
-                <td><span class="badge badge-<?= $i['status'] === 'open' ? 'success' : 'neutral' ?>"><?= ucfirst($i['status']) ?></span></td>
-                <td><a href="company_applicants.php?internship_id=<?= $i['internship_id'] ?>" style="color:var(--accent-primary);font-weight:600"><?= $i['app_count'] ?></a></td>
-                <td style="display:flex;gap:4px;align-items:center">
+                <td data-label="Title" style="font-weight:500"><?= htmlspecialchars($i['title']) ?></td>
+                <td data-label="Domain"><span class="badge badge-primary"><?= htmlspecialchars($i['domain']) ?></span></td>
+                <td data-label="Stipend"><?= $i['stipend'] > 0 ? 'PKR ' . number_format($i['stipend']) : '—' ?></td>
+                <td data-label="Duration"><?= $i['duration_months'] ?>m</td>
+                <td data-label="Start" style="font-size:0.8rem"><?= date('d M Y', strtotime($i['start_date'])) ?></td>
+                <td data-label="Status"><span class="badge badge-<?= $i['status'] === 'open' ? 'success' : 'neutral' ?>"><?= ucfirst($i['status']) ?></span></td>
+                <td data-label="Applicants"><a href="company_applicants.php?internship_id=<?= $i['internship_id'] ?>" style="color:var(--accent-primary);font-weight:600"><?= $i['app_count'] ?></a></td>
+                <td data-label="Actions" style="display:flex;gap:4px;align-items:center">
                     <form method="POST" style="display:inline">
                         <input type="hidden" name="internship_id" value="<?= $i['internship_id'] ?>">
                         <input type="hidden" name="current_status" value="<?= $i['status'] ?>">

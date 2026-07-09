@@ -90,7 +90,7 @@ try {
         <div class="ims-sidebar__section">
             <div class="ims-sidebar__section-label"><?= $section['label'] ?></div>
             <?php foreach ($section['items'] as $item): ?>
-            <a href="/ims/pages/<?= $item['page'] ?>.php"
+            <a href="/pages/<?= $item['page'] ?>.php"
                class="ims-nav__item <?= $currentPage === $item['page'] ? 'ims-nav__item--active' : '' ?>"
                data-tooltip="<?= $item['label'] ?>">
                 <span class="ims-nav__icon"><?= $item['icon'] ?></span>
@@ -103,7 +103,7 @@ try {
         <!-- Notifications (all roles) -->
         <div class="ims-sidebar__section">
             <div class="ims-sidebar__section-label">Notifications</div>
-            <a href="/ims/pages/notifications.php"
+            <a href="/pages/notifications.php"
                class="ims-nav__item <?= $currentPage === 'notifications' ? 'ims-nav__item--active' : '' ?>"
                data-tooltip="Notifications">
                 <span class="ims-nav__icon"><?= $icons['bell'] ?></span>
@@ -117,7 +117,7 @@ try {
 
     <!-- Toggle + Logout -->
     <div class="ims-sidebar__toggle">
-        <a href="/ims/auth/logout.php" class="ims-nav__item" data-tooltip="Logout" style="color:var(--accent-danger)">
+        <a href="/auth/logout.php" class="ims-nav__item" data-tooltip="Logout" style="color:var(--accent-danger)">
             <span class="ims-nav__icon"><?= $icons['logout'] ?></span>
             <span class="ims-nav__label">Logout</span>
         </a>

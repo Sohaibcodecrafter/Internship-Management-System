@@ -7,8 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/ims/assets/css/design-system.css">
-    <link rel="stylesheet" href="/ims/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/design-system.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
     <style>
         .role-toggle { display:flex; gap:0; margin-bottom:var(--s4); border-radius:var(--radius-md); overflow:hidden; border:2px solid var(--accent-primary); }
         .role-toggle label { flex:1; text-align:center; padding:10px; cursor:pointer; font-weight:600; font-size:0.9rem; transition:all 0.2s ease; color:var(--accent-primary); background:transparent; }
@@ -17,6 +17,7 @@
         .field-row { display:grid; grid-template-columns:1fr 1fr; gap:var(--s2); }
         .role-fields { display:none; }
         .role-fields.active { display:block; }
+        .input-field, .select-field { color: black !important; }
     </style>
 </head>
 <body style="margin:0;padding:0">
@@ -24,7 +25,7 @@
 
     <!-- LEFT: Image -->
     <div class="auth-split__image" aria-hidden="true">
-        <img src="/ims/assets/images/modern-geometric-building.png"
+        <img src="/assets/images/modern-geometric-building.png"
              alt="Modern Geometric Building"
              class="auth-split__img">
         <div class="auth-split__overlay">
@@ -151,7 +152,7 @@
                 </button>
             </form>
 
-            <p style="text-align:center;margin-top:var(--s3);font-size:0.85rem;color:var(--text-muted)">Already have an account? <a href="/ims/auth/login.php" style="color:var(--accent-primary);font-weight:600">Sign In</a></p>
+            <p style="text-align:center;margin-top:var(--s3);font-size:0.85rem;color:var(--text-muted)">Already have an account? <a href="/auth/login.php" style="color:var(--accent-primary);font-weight:600">Sign In</a></p>
         </div>
     </div>
 

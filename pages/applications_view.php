@@ -34,14 +34,14 @@
             <tbody>
                 <?php foreach ($applications as $a): ?>
                 <tr>
-                    <td style="font-weight:500"><?= htmlspecialchars($a['student_name']) ?></td>
-                    <td><?= htmlspecialchars($a['internship_title']) ?></td>
-                    <td><?= htmlspecialchars($a['company_name']) ?></td>
-                    <td style="color:var(--text-muted);font-size:0.8rem;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><?= htmlspecialchars($a['note_preview'] ?? '') ?></td>
-                    <td><?php $cls = match($a['status']){'accepted'=>'success','pending'=>'warning','rejected'=>'danger','shortlisted'=>'primary',default=>'neutral'}; ?><span class="badge badge-<?= $cls ?>"><?= ucfirst($a['status']) ?></span></td>
-                    <td style="color:var(--text-muted);font-size:0.8rem"><?= date('d M Y', strtotime($a['applied_at'])) ?></td>
+                    <td data-label="Student" style="font-weight:500"><?= htmlspecialchars($a['student_name']) ?></td>
+                    <td data-label="Internship"><?= htmlspecialchars($a['internship_title']) ?></td>
+                    <td data-label="Company"><?= htmlspecialchars($a['company_name']) ?></td>
+                    <td data-label="Note" style="color:var(--text-muted);font-size:0.8rem;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><?= htmlspecialchars($a['note_preview'] ?? '') ?></td>
+                    <td data-label="Status"><?php $cls = match($a['status']){'accepted'=>'success','pending'=>'warning','rejected'=>'danger','shortlisted'=>'primary',default=>'neutral'}; ?><span class="badge badge-<?= $cls ?>"><?= ucfirst($a['status']) ?></span></td>
+                    <td data-label="Applied" style="color:var(--text-muted);font-size:0.8rem"><?= date('d M Y', strtotime($a['applied_at'])) ?></td>
                     <?php if(isAdmin()): ?>
-                    <td>
+                    <td data-label="Action">
                         <form method="POST" action="" style="display:flex;gap:4px;align-items:center">
                             <input type="hidden" name="application_id" value="<?= $a['application_id'] ?>">
                             <select name="status" class="select-field" style="width:130px;padding:6px 10px;font-size:0.78rem">

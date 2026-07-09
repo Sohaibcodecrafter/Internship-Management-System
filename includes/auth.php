@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 function requireLogin(): void {
     if (!isset($_SESSION['user_id'])) {
-        header('Location: /ims/auth/login.php');
+        header('Location: /auth/login.php');
         exit;
     }
 }
@@ -14,7 +14,7 @@ function requireLogin(): void {
 function requireRole(string $role): void {
     requireLogin();
     if ($_SESSION['role'] !== $role && $_SESSION['role'] !== 'admin') {
-        header('Location: /ims/pages/dashboard.php');
+        header('Location: /pages/dashboard.php');
         exit;
     }
 }

@@ -28,11 +28,11 @@
                 <tbody>
                     <?php foreach ($deptGPA as $r): ?>
                     <tr>
-                        <td><?= htmlspecialchars($r['dept_name']) ?></td>
-                        <td><?= $r['student_count'] ?></td>
-                        <td><strong><?= $r['avg_gpa'] ?></strong></td>
-                        <td style="color:var(--accent-danger)"><?= $r['min_gpa'] ?></td>
-                        <td style="color:var(--accent-success)"><?= $r['max_gpa'] ?></td>
+                        <td data-label="Department"><?= htmlspecialchars($r['dept_name']) ?></td>
+                        <td data-label="Students"><?= $r['student_count'] ?></td>
+                        <td data-label="Avg GPA"><strong><?= $r['avg_gpa'] ?></strong></td>
+                        <td data-label="Min GPA" style="color:var(--accent-danger)"><?= $r['min_gpa'] ?></td>
+                        <td data-label="Max GPA" style="color:var(--accent-success)"><?= $r['max_gpa'] ?></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -49,10 +49,10 @@
                 <tbody>
                     <?php foreach ($supervisorSalaries as $r): ?>
                     <tr>
-                        <td><?= htmlspecialchars($r['company_name']) ?></td>
-                        <td><?= htmlspecialchars($r['supervisor']) ?></td>
-                        <td style="color:var(--text-muted);font-size:0.8rem"><?= htmlspecialchars($r['designation_upper']) ?></td>
-                        <td><strong>PKR <?= number_format($r['salary']) ?></strong></td>
+                        <td data-label="Company"><?= htmlspecialchars($r['company_name']) ?></td>
+                        <td data-label="Supervisor"><?= htmlspecialchars($r['supervisor']) ?></td>
+                        <td data-label="Designation" style="color:var(--text-muted);font-size:0.8rem"><?= htmlspecialchars($r['designation_upper']) ?></td>
+                        <td data-label="Salary"><strong>PKR <?= number_format($r['salary']) ?></strong></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -69,8 +69,8 @@
                 <tbody>
                     <?php foreach ($placementsByDept as $r): ?>
                     <tr>
-                        <td><?= htmlspecialchars($r['dept_name']) ?></td>
-                        <td><span class="badge badge-success"><?= $r['placements'] ?></span></td>
+                        <td data-label="Department"><?= htmlspecialchars($r['dept_name']) ?></td>
+                        <td data-label="Placements"><span class="badge badge-success"><?= $r['placements'] ?></span></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -89,9 +89,9 @@
                     $months = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
                     foreach ($monthlyApps as $r): ?>
                     <tr>
-                        <td><?= $r['yr'] ?></td>
-                        <td><?= $months[(int)$r['mo']] ?></td>
-                        <td><?= $r['total'] ?></td>
+                        <td data-label="Year"><?= $r['yr'] ?></td>
+                        <td data-label="Month"><?= $months[(int)$r['mo']] ?></td>
+                        <td data-label="Applications"><?= $r['total'] ?></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>

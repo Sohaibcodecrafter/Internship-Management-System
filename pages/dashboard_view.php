@@ -70,17 +70,17 @@
                 <tbody>
                     <?php foreach ($recentApps as $r): ?>
                     <tr>
-                        <td><?= htmlspecialchars($r['student']) ?></td>
-                        <td><?= htmlspecialchars($r['internship']) ?></td>
-                        <td><?= htmlspecialchars($r['company_name']) ?></td>
-                        <td>
+                        <td data-label="Student"><?= htmlspecialchars($r['student']) ?></td>
+                        <td data-label="Internship"><?= htmlspecialchars($r['internship']) ?></td>
+                        <td data-label="Company"><?= htmlspecialchars($r['company_name']) ?></td>
+                        <td data-label="Status">
                             <?php $cls = match($r['status']) {
                                 'accepted'=>'success','pending'=>'warning',
                                 'rejected'=>'danger','shortlisted'=>'primary', default=>'neutral'
                             }; ?>
                             <span class="badge badge-<?= $cls ?>"><?= ucfirst($r['status']) ?></span>
                         </td>
-                        <td style="color:var(--text-muted);font-size:0.8rem"><?= date('d M Y', strtotime($r['applied_at'])) ?></td>
+                        <td data-label="Applied" style="color:var(--text-muted);font-size:0.8rem"><?= date('d M Y', strtotime($r['applied_at'])) ?></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>

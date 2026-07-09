@@ -7,15 +7,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/ims/assets/css/design-system.css">
-    <link rel="stylesheet" href="/ims/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/design-system.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <style>
+        .input-field, .select-field { color: black !important; }
+    </style>
 </head>
 <body style="margin:0;padding:0">
+<a href="/" class="btn btn-ghost" style="position:absolute; top:20px; left:20px; z-index:100; min-height:44px; display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.2);">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    Back to Home
+</a>
 <div class="auth-split">
 
     <!-- LEFT: Image -->
     <div class="auth-split__image" aria-hidden="true">
-        <img src="/ims/assets/images/modern-geometric-building.png"
+        <img src="/assets/images/modern-geometric-building.png"
              alt="Modern Geometric Building"
              class="auth-split__img">
         <div class="auth-split__overlay">
@@ -58,12 +65,12 @@
                 </button>
             </form>
             <p style="text-align:center;margin-top:var(--s3);font-size:0.85rem;color:var(--text-muted)">
-                Don't have an account? <a href="/ims/auth/register.php" style="color:var(--accent-primary);font-weight:600">Register</a>
+                Don't have an account? <a href="/auth/register.php" style="color:var(--accent-primary);font-weight:600">Register</a>
             </p>
         </div>
     </div>
 
 </div>
-<script src="/ims/assets/js/main.js"></script>
+<script src="/assets/js/main.js"></script>
 </body>
 </html>
